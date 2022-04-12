@@ -77,11 +77,11 @@ public class Controller {
                             redrawPlayerboardOne(jButtons);
                         }
                         else {
-                            System.out.println("Zu nahe");
+                            JOptionPane.showMessageDialog(null, "Zu nahe an anderen Schiffen oder Rand");
                         }
                     }
                     else if(gameState == 0 && arrayStuff.getCurrentPlayerShip(currentShip).getIsPlaced()){
-                        System.out.println("schon gesetzt");
+                        JOptionPane.showMessageDialog(null, "Dieses Schiff wurde schon gesetzt");
                     }
                 });
             }
@@ -101,9 +101,6 @@ public class Controller {
                         //System.out.println(Arrays.deepToString(arrayStuff.getPlayerBoardOne()));
                         redrawPlayerboardTwo(jButtons);
 
-                    }
-                    else if(gameState == 0 && arrayStuff.getCurrentPlayerShip(currentShip).getIsPlaced()){
-                        System.out.println("schon gesetzt");
                     }
                 });
             }
