@@ -17,7 +17,6 @@ public class Ship {
         this.isPlaced = false;
     }
 
-
     public int getLength() {
         return length;
     }
@@ -53,17 +52,12 @@ public class Ship {
         }
     }
 
-
     public int[][] getShipCoordinates(){
         return this.shipCoordinates;
     }
 
-
-    public void checkForHit(int x, int y){
-        if(this.shipCoordinates[x][y] == 1){
-            this.shipCoordinates[x][y] = 2;
-            this.length -= 1;
-        }
+    public void shipHitCords(int x, int y){
+        this.shipCoordinates[x][y] = 2;
     }
 
     public boolean checkIsAlive(){
@@ -75,6 +69,7 @@ public class Ship {
             return true;
         }
     }
+
     public boolean getIsPlaced(){
         return this.isPlaced;
     }
@@ -82,6 +77,5 @@ public class Ship {
     public boolean checkPlace(int startX, int startY, int shipLength, int orientation){
         return true;
     }
-
 
 }

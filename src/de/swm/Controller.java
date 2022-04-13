@@ -12,6 +12,8 @@ public class Controller {
     private int currentShip = 0;
     private int gameState = 0;
     private ArrayStuff arrayStuff = new ArrayStuff();
+    private int turnTimer = 0;
+
 
 
     private View view;
@@ -59,7 +61,6 @@ public class Controller {
 
     }
 
-
     private void addActionListenersBot(JButton[][] jButtons) {
 
         for(int i = 0; i<10;i++) {
@@ -68,7 +69,7 @@ public class Controller {
                 int finalJ = j;
                 jButtons[i+1][j+1].addActionListener(e -> {
                     if(gameState == 0 && !arrayStuff.getCurrentPlayerShip(currentShip).getIsPlaced()){
-                        if(checkStone(finalI, finalJ, arrayStuff.getCurrentPlayerShip(currentShip).getLength())){
+                        if(arrayStuff.checkStone(finalI, finalJ, arrayStuff.getCurrentPlayerShip(currentShip).getLength(), arrayStuff, rotation)){
                             arrayStuff.getCurrentPlayerShip(currentShip).setShipCoordinates(finalI, finalJ,arrayStuff.getCurrentPlayerShip(currentShip).getLength(),rotation);
                             arrayStuff.getCurrentEnemyShip(currentShip).setShipCoordinates(finalI, finalJ,arrayStuff.getCurrentEnemyShip(currentShip).getLength(),rotation);
                             arrayStuff.redoPlayerBoardOne(arrayStuff.getPlayerShips());
@@ -87,25 +88,31 @@ public class Controller {
             }
         }
     }
-    private void addActionListenersTop(JButton[][] jButtons) {
 
-        for(int i = 0; i<10;i++) {
-            for(int j = 0; j<10; j++) {
+    private void addActionListenersTop(JButton[][] jButtons) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
                 int finalI = i;
                 int finalJ = j;
-                jButtons[i+1][j+1].addActionListener(e -> {
-                    if(gameState == 1 ){
-                        arrayStuff.redoPlayerBoardTwo(arrayStuff.getEnemyShips());
-                        arrayStuff.shoot(finalI, finalJ);
-                        //System.out.println(Arrays.deepToString(arrayStuff.getCurrentPlayerShip(currentShip).getShipCoordinates()));
-                        //System.out.println(Arrays.deepToString(arrayStuff.getPlayerBoardOne()));
-                        redrawPlayerboardTwo(jButtons);
+                jButtons[i + 1][j + 1].addActionListener(e -> {
+                    if (turnTimer % 2 == 0) {
+                        if (gameState == 1) {
+                            arrayStuff.redoPlayerBoardTwo(arrayStuff.getEnemyShips());
+                            arrayStuff.shoot(finalI, finalJ);
+                            if (!arrayStuff.checkForHit(finalI, finalJ, arrayStuff.getEnemyShips())) {
+                                turnTimer++;
+                            }
+                            //System.out.println(Arrays.deepToString(arrayStuff.getCurrentPlayerShip(currentShip).getShipCoordinates()));
+                            //System.out.println(Arrays.deepToString(arrayStuff.getPlayerBoardOne()));
+                            redrawPlayerboardTwo(jButtons);
 
+                        }
                     }
                 });
             }
         }
     }
+
 
     private void redrawPlayerboardOne(JButton[][] jButtons){
         int[][] playerBoardOne = arrayStuff.getPlayerBoardOne();
@@ -135,61 +142,6 @@ public class Controller {
             }
         }
     }
-
-
-
-    private boolean checkStone(int startX, int startY, int shipLength){
-        int[][] tempTable = arrayStuff.getPlayerBoardOne();
-
-        if(tempTable[startX][startY] == 1){
-            return false;
-        }
-        if(rotation == 1){
-            if(startX + shipLength > 10){
-                return false;
-            }
-            if(startX + shipLength < 9 && tempTable[startX+shipLength][startY] == 1){
-                return false;
-            }
-            for (int i = 0; i < shipLength ; i++) {
-                if(startY < 10 && (tempTable[startX+i][startY+1] == 1||tempTable[startX+i][startY] == 1)){
-                    return false;
-                }
-                else if(startY > 0 && (tempTable[startX+i][startY-1] == 1||tempTable[startX+i][startY] == 1)){
-                    return false;
-                }
-            }
-        }
-        else if(rotation == 0){
-            if (startY + shipLength > 10){
-                return false;
-            }
-            if (startY + shipLength < 9 && tempTable[startX][startY+shipLength] == 1){
-                return false;
-            }
-            for (int i = 0; i < shipLength ; i++) {
-                if(startX < 10 && (tempTable[startX+1][startY+i] == 1 || tempTable[startX][startY+i] == 1)){
-                    return false;
-                }
-                else  if(startX > 0 && (tempTable[startX-1][startY+i] == 1 || tempTable[startX][startY+i] == 1)){
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-
-       /*if(rotation == 1 && finalI + arrayStuff.getCurrentPlayerShip(currentShip).getLength() < 11){
-           for (int i = 0; i <arrayStuff.getCurrentPlayerShip(currentShip).getLength()  ; i++) {
-               jButtons[finalI+i+1][finalJ+1].setBackground(Color.gray);
-           }
-       }
-       if(rotation == 0 && finalJ + arrayStuff.getCurrentPlayerShip(currentShip).getLength() < 11){
-           for (int i = 0; i < arrayStuff.getCurrentPlayerShip(currentShip).getLength() ; i++) {
-               jButtons[finalI+1][finalJ+i+1].setBackground(Color.gray);
-           }
-       }*/
 
 
 }

@@ -11,7 +11,6 @@ public class ArrayStuff {
     private Ship[] playerShips = new Ship[7];
     private Ship[] enemyShips = new Ship[7];
 
-
     public void redoPlayerBoardOne(Ship[] ships){
         for (int i = 0; i < ships.length ; i++) {
             int[][] tempArray = ships[i].getShipCoordinates();
@@ -32,6 +31,7 @@ public class ArrayStuff {
             }
         }
     }
+
     public void redoPlayerBoardTwo(Ship[] ships){
         for (int i = 0; i < ships.length ; i++) {
             int[][] tempArray = ships[i].getShipCoordinates();
@@ -53,7 +53,6 @@ public class ArrayStuff {
         }
     }
 
-
     public void shoot(int x, int y){
         if(playerBoardTwo[x][y] == 0){
             playerBoardTwo[x][y] = 3;
@@ -62,7 +61,6 @@ public class ArrayStuff {
             playerBoardTwo[x][y] = 2;
         }
     }
-
 
     public void redoEnemyBoards(){
 
@@ -96,9 +94,11 @@ public class ArrayStuff {
     public Ship[] getEnemyShips(){
         return enemyShips;
     }
+
     public Ship getCurrentPlayerShip(int i){
         return playerShips[i];
     }
+
     public Ship getCurrentEnemyShip(int i){
         return enemyShips[i];
     }
@@ -117,4 +117,62 @@ public class ArrayStuff {
     public int[][] getPlayerBoardTwo() {
         return playerBoardTwo;
     }
+
+    public boolean checkStone(int startX, int startY, int shipLength, ArrayStuff arrayStuff, int rotation){
+        int[][] tempTable = arrayStuff.getPlayerBoardOne();
+
+        if(tempTable[startX][startY] == 1){
+            return false;
+        }
+        if(rotation == 1){
+            if(startX + shipLength > 10){
+                return false;
+            }
+            if(startX + shipLength < 9 && tempTable[startX+shipLength][startY] == 1){
+                return false;
+            }
+            for (int i = 0; i < shipLength ; i++) {
+                if(startY < 10 && (tempTable[startX+i][startY+1] == 1||tempTable[startX+i][startY] == 1)){
+                    return false;
+                }
+                else if(startY > 0 && (tempTable[startX+i][startY-1] == 1||tempTable[startX+i][startY] == 1)){
+                    return false;
+                }
+            }
+        }
+        else if(rotation == 0){
+            if (startY + shipLength > 10){
+                return false;
+            }
+            if (startY + shipLength < 9 && tempTable[startX][startY+shipLength] == 1){
+                return false;
+            }
+            for (int i = 0; i < shipLength ; i++) {
+                if(startX < 10 && (tempTable[startX+1][startY+i] == 1 || tempTable[startX][startY+i] == 1)){
+                    return false;
+                }
+                else  if(startX > 0 && (tempTable[startX-1][startY+i] == 1 || tempTable[startX][startY+i] == 1)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean checkForHit(int x, int y, Ship[] ships){
+        for (int i = 0; i <ships.length ; i++) {
+            int[][] tempArray= ships[i].getShipCoordinates();
+            if (tempArray[x][y] == 1){
+                ships[i].setLength(ships[i].getLength() -1);
+                ships[i].shipHitCords(x,y );
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
 }
+
+
