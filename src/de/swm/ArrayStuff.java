@@ -159,6 +159,68 @@ public class ArrayStuff {
         return true;
     }
 
+
+    public boolean checkStoneNew(int startX, int startY, int shipLength, ArrayStuff arrayStuff, int rotation){
+
+        int[][] tempTable = arrayStuff.getPlayerBoardOne();
+
+        if(rotation == 1 && startX + shipLength < 10) {
+            if (tempTable[startX+ shipLength][startY] == 1){
+                return false;
+            }
+            if (startY + 1 == 10) {
+                for (int i = 0; i < shipLength ; i++) {
+                    if( tempTable[startX+i][startY-1] == 1||tempTable[startX+i][startY] == 1){
+                        return false;
+                    }
+                }
+            }
+            else if (startY - 1 == -1) {
+                for (int i = 0; i < shipLength ; i++) {
+                    if( tempTable[startX+i][startY+1] == 1||tempTable[startX+i][startY] == 1){
+                        return false;
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < shipLength ; i++) {
+                    if( tempTable[startX+i][startY+1] == 1 ||tempTable[startX+i][startY-1] == 1||tempTable[startX+i][startY] == 1){
+                        return false;
+                    }
+                }
+            }
+        }
+        else if(rotation == 0 && startY + shipLength < 10){
+            if(tempTable[startX][startY+ shipLength] == 1){
+                return false;
+            }
+            if (startX + 1 == 10) {
+                for (int i = 0; i < shipLength ; i++) {
+                    if( tempTable[startX-1][startY+i] == 1||tempTable[startX][startY+i] == 1){
+                        return false;
+                    }
+                }
+            }
+            else if (startX - 1 == -1) {
+                for (int i = 0; i < shipLength ; i++) {
+                    if( tempTable[startX+1][startY+i] == 1||tempTable[startX][startY+i] == 1){
+                        return false;
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < shipLength ; i++) {
+                    if( tempTable[startX+1][startY+i] == 1 ||tempTable[startX-1][startY+i] == 1||tempTable[startX][startY+i] == 1){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+
+
     public boolean checkForHit(int x, int y, Ship[] ships){
         for (int i = 0; i <ships.length ; i++) {
             int[][] tempArray= ships[i].getShipCoordinates();

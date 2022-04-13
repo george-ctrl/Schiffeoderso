@@ -69,7 +69,7 @@ public class Controller {
                 int finalJ = j;
                 jButtons[i+1][j+1].addActionListener(e -> {
                     if(gameState == 0 && !arrayStuff.getCurrentPlayerShip(currentShip).getIsPlaced()){
-                        if(arrayStuff.checkStone(finalI, finalJ, arrayStuff.getCurrentPlayerShip(currentShip).getLength(), arrayStuff, rotation)){
+                        if(arrayStuff.checkStoneNew(finalI, finalJ, arrayStuff.getCurrentPlayerShip(currentShip).getLength(), arrayStuff, rotation)){
                             arrayStuff.getCurrentPlayerShip(currentShip).setShipCoordinates(finalI, finalJ,arrayStuff.getCurrentPlayerShip(currentShip).getLength(),rotation);
                             arrayStuff.getCurrentEnemyShip(currentShip).setShipCoordinates(finalI, finalJ,arrayStuff.getCurrentEnemyShip(currentShip).getLength(),rotation);
                             arrayStuff.redoPlayerBoardOne(arrayStuff.getPlayerShips());
@@ -112,7 +112,6 @@ public class Controller {
             }
         }
     }
-
 
     private void redrawPlayerboardOne(JButton[][] jButtons){
         int[][] playerBoardOne = arrayStuff.getPlayerBoardOne();
