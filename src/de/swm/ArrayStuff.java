@@ -164,7 +164,10 @@ public class ArrayStuff {
 
         int[][] tempTable = arrayStuff.getPlayerBoardOne();
 
-        if(rotation == 1 && startX + shipLength < 10) {
+        if(rotation == 1) {
+            if(startX + shipLength > 10){
+                return false;
+            }
             if (startX > 0 ){
                 if(tempTable[startX - 1][startY] == 1){
                     return false;
@@ -201,40 +204,45 @@ public class ArrayStuff {
                 }
             }
         }
-        else if(rotation == 0 && startY + shipLength < 10){
-            if (startY > 0 ){
-                if(tempTable[startY - 1][startX] == 1){
-                    return false;
-                }
-                else if (startX - 1 > 0 && tempTable[startY - 1][startX-1] == 1){
-                    return false;
-                }
-                else if (startX + 1 < 10 && tempTable[startY - 1][startX+1] == 1){
-                    return false;
-                }
-            }
-
-            if(tempTable[startX][startY+ shipLength] == 1){
+        else if(rotation == 0){
+            if(startY + shipLength > 10){
                 return false;
             }
-            if (startX + 1 == 10) {
-                for (int i = 0; i < shipLength ; i++) {
-                    if( tempTable[startX-1][startY+i] == 1||tempTable[startX][startY+i] == 1){
+            if(startY + shipLength < 10){
+                if (startY > 0 ){
+                    if(tempTable[startY - 1][startX] == 1){
+                        return false;
+                    }
+                    else if (startX - 1 > 0 && tempTable[startY - 1][startX-1] == 1){
+                        return false;
+                    }
+                    else if (startX + 1 < 10 && tempTable[startY - 1][startX+1] == 1){
                         return false;
                     }
                 }
-            }
-            else if (startX - 1 == -1) {
-                for (int i = 0; i < shipLength ; i++) {
-                    if( tempTable[startX+1][startY+i] == 1||tempTable[startX][startY+i] == 1){
-                        return false;
+
+                if(tempTable[startX][startY+ shipLength] == 1){
+                    return false;
+                }
+                if (startX + 1 == 10) {
+                    for (int i = 0; i < shipLength ; i++) {
+                        if( tempTable[startX-1][startY+i] == 1||tempTable[startX][startY+i] == 1){
+                            return false;
+                        }
                     }
                 }
-            }
-            else {
-                for (int i = 0; i < shipLength ; i++) {
-                    if( tempTable[startX+1][startY+i] == 1 ||tempTable[startX-1][startY+i] == 1||tempTable[startX][startY+i] == 1){
-                        return false;
+                else if (startX - 1 == -1) {
+                    for (int i = 0; i < shipLength ; i++) {
+                        if( tempTable[startX+1][startY+i] == 1||tempTable[startX][startY+i] == 1){
+                            return false;
+                        }
+                    }
+                }
+                else {
+                    for (int i = 0; i < shipLength ; i++) {
+                        if( tempTable[startX+1][startY+i] == 1 ||tempTable[startX-1][startY+i] == 1||tempTable[startX][startY+i] == 1){
+                            return false;
+                        }
                     }
                 }
             }
