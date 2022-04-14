@@ -2,16 +2,13 @@ package de.swm;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 public class Controller {
 
     private int rotation = 1;
     private int currentShip = 0;
     private int gameState = 0;
-    private ArrayStuff arrayStuff = new ArrayStuff();
+    private Board board = new Board();
     private int turnTimer = 0;
 
 
@@ -24,8 +21,8 @@ public class Controller {
     }
 
     public void initAction() {
-        arrayStuff.shipBuilder(1);
-        arrayStuff.shipBuilder(2);
+        board.shipBuilder(1);
+        board.shipBuilder(2);
 
         view.getRotateBtn().addActionListener(e -> {
             if (rotation == 1) {
@@ -68,11 +65,11 @@ public class Controller {
                 int finalI = i;
                 int finalJ = j;
                 jButtons[i+1][j+1].addActionListener(e -> {
-                    if(gameState == 0 && !arrayStuff.getCurrentPlayerShip(currentShip).getIsPlaced()){
-                        if(arrayStuff.checkStoneNew(finalI, finalJ, arrayStuff.getCurrentPlayerShip(currentShip).getLength(), arrayStuff, rotation)){
-                            arrayStuff.getCurrentPlayerShip(currentShip).setShipCoordinates(finalI, finalJ,arrayStuff.getCurrentPlayerShip(currentShip).getLength(),rotation);
-                            arrayStuff.getCurrentEnemyShip(currentShip).setShipCoordinates(finalI, finalJ,arrayStuff.getCurrentEnemyShip(currentShip).getLength(),rotation);
-                            arrayStuff.redoPlayerBoardOne(arrayStuff.getPlayerShips());
+                    if(gameState == 0 && !board.getCurrentPlayerShip(currentShip).getIsPlaced()){
+                        if(board.checkStoneNew(finalI, finalJ, board.getCurrentPlayerShip(currentShip).getLength(), board, rotation)){
+                            board.getCurrentPlayerShip(currentShip).setShipCoordinates(finalI, finalJ, board.getCurrentPlayerShip(currentShip).getLength(),rotation);
+                            board.getCurrentEnemyShip(currentShip).setShipCoordinates(finalI, finalJ, board.getCurrentEnemyShip(currentShip).getLength(),rotation);
+                            board.redoPlayerBoardOne(board.getPlayerShips());
                             //System.out.println(Arrays.deepToString(arrayStuff.getCurrentPlayerShip(currentShip).getShipCoordinates()));
                             //System.out.println(Arrays.deepToString(arrayStuff.getPlayerBoardOne()));
                             redrawPlayerboardOne(jButtons);
@@ -81,7 +78,7 @@ public class Controller {
                             JOptionPane.showMessageDialog(null, "Zu nahe an anderen Schiffen oder Rand");
                         }
                     }
-                    else if(gameState == 0 && arrayStuff.getCurrentPlayerShip(currentShip).getIsPlaced()){
+                    else if(gameState == 0 && board.getCurrentPlayerShip(currentShip).getIsPlaced()){
                         JOptionPane.showMessageDialog(null, "Dieses Schiff wurde schon gesetzt");
                     }
                 });
@@ -97,9 +94,9 @@ public class Controller {
                 jButtons[i + 1][j + 1].addActionListener(e -> {
                     if (turnTimer % 2 == 0) {
                         if (gameState == 1) {
-                            arrayStuff.redoPlayerBoardTwo(arrayStuff.getEnemyShips());
-                            arrayStuff.shoot(finalI, finalJ);
-                            if (!arrayStuff.checkForHit(finalI, finalJ, arrayStuff.getEnemyShips())) {
+                            board.redoPlayerBoardTwo(board.getEnemyShips());
+                            board.shoot(finalI, finalJ);
+                            if (!board.checkForHit(finalI, finalJ, board.getEnemyShips())) {
                                 turnTimer++;
                             }
                             //System.out.println(Arrays.deepToString(arrayStuff.getCurrentPlayerShip(currentShip).getShipCoordinates()));
@@ -114,7 +111,7 @@ public class Controller {
     }
 
     private void redrawPlayerboardOne(JButton[][] jButtons){
-        int[][] playerBoardOne = arrayStuff.getPlayerBoardOne();
+        int[][] playerBoardOne = board.getPlayerBoardOne();
         for (int j = 0; j <10 ; j++) {
             for (int k = 0; k <10; k++) {
                 switch (playerBoardOne[j][k]){
@@ -127,7 +124,7 @@ public class Controller {
     }
 
     private void redrawPlayerboardTwo(JButton[][] jButtons){
-        int[][] playerBoardTwo = arrayStuff.getPlayerBoardTwo();
+        int[][] playerBoardTwo = board.getPlayerBoardTwo();
         for (int j = 0; j <10 ; j++) {
             for (int k = 0; k <10; k++) {
                 switch (playerBoardTwo[j][k]){

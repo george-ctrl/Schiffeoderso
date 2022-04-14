@@ -5,7 +5,6 @@ public class Ship {
     private boolean isAlive;
     private int[][] shipCoordinates;
     private boolean isPlaced;
-    private ArrayStuff arrayStuff = new ArrayStuff();
 
 
 

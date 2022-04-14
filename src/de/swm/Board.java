@@ -2,7 +2,7 @@ package de.swm;
 
 import java.util.Arrays;
 
-public class ArrayStuff {
+public class Board {
 
     private int[][] playerBoardOne = new int[10][10];
     private int[][] playerBoardTwo = new int[10][10];
@@ -118,8 +118,8 @@ public class ArrayStuff {
         return playerBoardTwo;
     }
 
-    public boolean checkStone(int startX, int startY, int shipLength, ArrayStuff arrayStuff, int rotation){
-        int[][] tempTable = arrayStuff.getPlayerBoardOne();
+    public boolean checkStone(int startX, int startY, int shipLength, Board board, int rotation){
+        int[][] tempTable = board.getPlayerBoardOne();
 
         if(tempTable[startX][startY] == 1){
             return false;
@@ -160,9 +160,9 @@ public class ArrayStuff {
     }
 
 
-    public boolean checkStoneNew(int startX, int startY, int shipLength, ArrayStuff arrayStuff, int rotation){
+    public boolean checkStoneNew(int startX, int startY, int shipLength, Board board, int rotation){
 
-        int[][] tempTable = arrayStuff.getPlayerBoardOne();
+        int[][] tempTable = board.getPlayerBoardOne();
 
         if(rotation == 1) {
             if(startX + shipLength > 10){
