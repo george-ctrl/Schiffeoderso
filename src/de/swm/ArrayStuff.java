@@ -165,6 +165,17 @@ public class ArrayStuff {
         int[][] tempTable = arrayStuff.getPlayerBoardOne();
 
         if(rotation == 1 && startX + shipLength < 10) {
+            if (startX > 0 ){
+                if(tempTable[startX - 1][startY] == 1){
+                    return false;
+                }
+                else if (startY - 1 > 0 && tempTable[startX - 1][startY-1] == 1){
+                    return false;
+                }
+                else if (startY + 1 < 10 && tempTable[startX - 1][startY+1] == 1){
+                    return false;
+                }
+            }
             if (tempTable[startX+ shipLength][startY] == 1){
                 return false;
             }
@@ -191,6 +202,18 @@ public class ArrayStuff {
             }
         }
         else if(rotation == 0 && startY + shipLength < 10){
+            if (startY > 0 ){
+                if(tempTable[startY - 1][startX] == 1){
+                    return false;
+                }
+                else if (startX - 1 > 0 && tempTable[startY - 1][startX-1] == 1){
+                    return false;
+                }
+                else if (startX + 1 < 10 && tempTable[startY - 1][startX+1] == 1){
+                    return false;
+                }
+            }
+
             if(tempTable[startX][startY+ shipLength] == 1){
                 return false;
             }
